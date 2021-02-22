@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/mi_sneaker_list"
+        android:id="@+id/frag_sneaker_list"
         android:title="@string/home"
         android:icon="@drawable/ic_home"
         />
 
     <item
-        android:id="@+id/mi_favorites_list"
+        android:id="@+id/frag_favorites_list"
         android:title="@string/favorites"
         android:icon="@drawable/ic_star"
         />

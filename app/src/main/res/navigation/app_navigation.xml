@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/sneakerListFragment">
+    app:startDestination="@id/frag_sneaker_list">
 
     <fragment
-        android:id="@+id/sneakerListFragment"
+        android:id="@+id/frag_sneaker_list"
         android:name="com.alaksion.sneakerdex.presentation.SneakerListFragment"
         android:label="fragment_sneaker_list"
         tools:layout="@layout/fragment_sneaker_list" />
     <fragment
-        android:id="@+id/favoriteSneakersListFragment"
+        android:id="@+id/frag_favorites_list"
         android:name="com.alaksion.sneakerdex.presentation.FavoriteSneakersListFragment"
         android:label="fragment_favorite_sneakers_list"
         tools:layout="@layout/fragment_favorite_sneakers_list" />
