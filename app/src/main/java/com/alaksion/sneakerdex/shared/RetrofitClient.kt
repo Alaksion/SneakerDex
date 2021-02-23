@@ -7,9 +7,9 @@ class RetrofitClient {
 
     companion object {
         private lateinit var retrofitClient: Retrofit
-        private const val BASE_URL = "api.thesneakerdatabase.com"
+        private const val BASE_URL = "https://api.thesneakerdatabase.com"
 
-        fun getInstance(): Retrofit {
+        private fun getInstance(): Retrofit {
             if (!Companion::retrofitClient.isInitialized) {
                 retrofitClient = Retrofit.Builder()
                     .baseUrl(BASE_URL)
@@ -18,6 +18,10 @@ class RetrofitClient {
             }
 
             return retrofitClient
+        }
+
+        fun <S> createService(serviceClass: Class<S>): S {
+            return getInstance().create(serviceClass)
         }
     }
 }

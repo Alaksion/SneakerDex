@@ -27,6 +27,5 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.f_nav_host)
         viewBinding.bnMenu.setupWithNavController(navController)
     }
-
-
+    
 }
