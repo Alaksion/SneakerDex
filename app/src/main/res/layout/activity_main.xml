@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_purple"
+        android:background="@color/white"
         tools:context=".presentation.MainActivity">
 
         <fragment
@@ -23,9 +23,8 @@
             android:id="@+id/bn_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_purple"
-            android:paddingVertical="5dp"
-            app:itemIconSize="40dp"
+            android:background="@color/white"
+            app:itemIconSize="35dp"
             app:itemIconTint="@color/bottom_nav_icon_color"
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"

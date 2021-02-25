@@ -9,8 +9,10 @@
     <color name="white">#FFFFFFFF</color>
 
 
+    <color name="menu_item">#DEDEE3</color>
+    <color name="menu_item_selected">#DC1637</color>
+    <color name="title_grey">#47474D</color>
+    <color name="detail_grey">#AEAEB3</color>
+    <color name="app_black">#1B1B1F</color>
 
-    <color name="background_purple">#191a23</color>
-    <color name="menu_item">#444458</color>
-    <color name="menu_item_selected">#e53857</color>
 </resources>
