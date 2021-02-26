@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_item_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -41,7 +43,7 @@
         android:fontFamily="@font/archivo_bold"
         tools:text="Royal Blue"
         android:textColor="@color/detail_grey"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_retail_price"
@@ -55,10 +57,5 @@
         android:fontFamily="@font/archivo_bold"
         tools:text="R$ 490"
         android:textColor="@color/menu_item_selected"
-        android:textSize="18sp"/>
-
-
-
-
-
+        android:textSize="18sp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

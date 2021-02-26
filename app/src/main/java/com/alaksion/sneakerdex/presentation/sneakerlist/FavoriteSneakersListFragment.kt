@@ -1,4 +1,4 @@
-package com.alaksion.sneakerdex.presentation
+package com.alaksion.sneakerdex.presentation.sneakerlist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,11 +16,4 @@ class FavoriteSneakersListFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite_sneakers_list, container, false)
     }
-
-    companion object {
-        fun getInstance() : FavoriteSneakersListFragment{
-            return FavoriteSneakersListFragment()
-        }
-    }
-
 }

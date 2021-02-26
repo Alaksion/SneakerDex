@@ -1,6 +1,7 @@
 package com.alaksion.sneakerdex.data.repository
 
 import com.alaksion.sneakerdex.data.model.SneakerData
+import com.alaksion.sneakerdex.data.model.SneakerListResponseData
 import com.alaksion.sneakerdex.data.model.SneakerResponseData
 import com.alaksion.sneakerdex.data.remote.SneakersService
 import com.alaksion.sneakerdex.data.repository.request.GetSneakersRequestParams
@@ -16,10 +17,10 @@ class SneakerRepositoryImpl : SneakersRepository {
     private val retrofitClient = RetrofitClient.createService(SneakersService::class.java)
 
     override fun getSneakers(
-        apiListener: ApiListener<SneakerResponseData>,
+        apiListener: ApiListener<SneakerListResponseData>,
         requestParams: GetSneakersRequestParams
     ) {
-        val call: Call<SneakerResponseData> = retrofitClient.getSneakers(
+        val call: Call<SneakerListResponseData> = retrofitClient.getSneakers(
             requestParams.limit,
             requestParams.page,
             requestParams.styleId,
@@ -33,16 +34,22 @@ class SneakerRepositoryImpl : SneakersRepository {
             requestParams.sort
         )
 
-        call.enqueue(object : Callback<SneakerResponseData> {
+        callApi(call, apiListener)
+    }
 
-            override fun onFailure(call: Call<SneakerResponseData>, t: Throwable) {
+    override fun getSneaker(apiListener: ApiListener<SneakerResponseData>, sneakerId: String) {
+        val call : Call<SneakerResponseData> = retrofitClient.getSneaker(sneakerId)
+        callApi(call, apiListener)
+    }
+
+    private fun <T> callApi(call : Call<T>, apiListener: ApiListener<T>) {
+        call.enqueue(object : Callback<T>{
+
+            override fun onFailure(call: Call<T>, t: Throwable) {
                 apiListener.onError("Ocorreu um erro inesperado")
             }
 
-            override fun onResponse(
-                call: Call<SneakerResponseData>,
-                response: Response<SneakerResponseData>
-            ) {
+            override fun onResponse(call: Call<T>, response: Response<T>) {
                 if (response.isSuccessful) {
                     response.body()?.let { apiListener.onSuccess(it) }
                 } else {
