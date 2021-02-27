@@ -18,12 +18,25 @@
 
             <ImageView
                 android:id="@+id/iv_back_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:src="@drawable/ic_back_arrow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/archivo_regular"
+                android:text="@string/detalhes"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_back_button"
+                app:layout_constraintStart_toEndOf="@id/iv_back_button"
+                app:layout_constraintTop_toTopOf="@id/iv_back_button" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
@@ -38,38 +51,106 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingHorizontal="30dp"
-            android:paddingVertical="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_sneaker_image">
+            app:layout_constraintTop_toBottomOf="@id/iv_sneaker_image"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp">
+
+            <ImageView
+                android:id="@+id/iv_brand_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                tools:src="@drawable/ic_nike"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_sneaker_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/archivo_bold"
                 android:textColor="@color/title_grey"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_retail_price"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHorizontal_weight="3"
+                app:layout_constraintTop_toBottomOf="@id/iv_brand_logo"
                 tools:text="Air Jordan Example" />
 
             <TextView
                 android:id="@+id/tv_retail_price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/archivo_bold"
-                android:gravity="center_horizontal"
                 android:textColor="@color/menu_item_selected"
-                android:textSize="19sp"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_sneaker_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_sneaker_name"
                 app:layout_constraintTop_toTopOf="@id/tv_sneaker_name"
-                app:layout_constraintBottom_toBottomOf="@id/tv_sneaker_name"
-                app:layout_constraintHorizontal_weight="1"
-                android:layout_marginStart="10dp"
-                tools:text="$ 20.00" />
+                tools:text="200.00" />
+
+            <TextView
+                android:id="@+id/tv_colorway"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="@font/archivo_bold"
+                android:textColor="@color/detail_grey"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_sneaker_name"
+                tools:text="White/Grey" />
+
+            <TextView
+                android:id="@+id/tv_release_year_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/archivo_bold"
+                android:text="@string/ano_de_lan_amento"
+                android:textColor="@color/title_grey"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_colorway" />
+
+            <TextView
+                android:id="@+id/tv_release_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/archivo_bold"
+                tools:text="2021"
+                android:textColor="@color/detail_grey"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_release_year_title" />
+
+            <TextView
+                android:id="@+id/tv_gender_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_release_year"
+                android:layout_marginTop="10dp"
+                android:text="@string/g_nero"
+                android:textColor="@color/title_grey"
+                android:fontFamily="@font/archivo_bold"
+                android:textSize="22sp"/>
+
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_gender_title"
+                tools:text="Masculino"
+                android:textColor="@color/detail_grey"
+                android:fontFamily="@font/archivo_bold"
+                android:textSize="20sp"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

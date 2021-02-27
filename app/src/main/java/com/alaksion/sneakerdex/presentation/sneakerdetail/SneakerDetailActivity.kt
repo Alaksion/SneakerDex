@@ -5,15 +5,19 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alaksion.sneakerdex.R
 import com.alaksion.sneakerdex.data.model.SneakerData
 import com.alaksion.sneakerdex.databinding.ActivitySneakerDetailBinding
+import com.alaksion.sneakerdex.presentation.model.Brands
 import com.alaksion.sneakerdex.shared.constants.SneakerDexConstants
 import com.alaksion.sneakerdex.shared.extensions.ImageViewExtensions.setImageFromUrl
+import java.util.*
 
 class SneakerDetailActivity : AppCompatActivity() {
 
@@ -30,6 +34,7 @@ class SneakerDetailActivity : AppCompatActivity() {
         getExtras()
         setListeners()
         setObservers()
+        hideUi()
         mViewModel.getSneaker(sneakerId)
     }
 
@@ -52,6 +57,7 @@ class SneakerDetailActivity : AppCompatActivity() {
 
         mViewModel.sneakerInfo.observe(this, Observer {
             loadSneakerInfoIntoUi(it)
+            showUi()
         })
 
         mViewModel.isLoading.observe(this, Observer {
@@ -60,13 +66,63 @@ class SneakerDetailActivity : AppCompatActivity() {
 
     }
 
+    private fun hideUi() {
+        viewBinding.clContent.visibility = View.INVISIBLE
+    }
+
+    private fun showUi() {
+        viewBinding.clContent.visibility = View.VISIBLE
+    }
+
     private fun loadSneakerInfoIntoUi(sneaker: SneakerData) {
         val formattedPrice = "$ ${sneaker.retailPrice}"
 
         viewBinding.ivSneakerImage.setImageFromUrl(sneaker.media.smallImageUrl)
         viewBinding.tvSneakerName.text = sneaker.shoe
         viewBinding.tvRetailPrice.text = formattedPrice
+        viewBinding.tvColorway.text = sneaker.colorway
+        viewBinding.tvGender.text = setSneakerGenderText(sneaker.gender)
+        viewBinding.tvReleaseYear.text = sneaker.year.toString()
+        setBrandLogo(sneaker.brand)
     }
+
+    private fun setSneakerGenderText(gender: String): String {
+        return if (gender == "men")
+            MALE_GENDER_TEXT
+        else
+            FEMALE_GENDER_TEXT
+    }
+
+    private fun setBrandLogo(brandName: String) {
+        val brandImage = getLogoDrawableId(brandName)
+        viewBinding.ivBrandLogo.setImageDrawable(
+            ResourcesCompat.getDrawable(
+                resources,
+                brandImage,
+                null
+            )
+        )
+    }
+
+    private fun getLogoDrawableId(brandName: String): Int {
+        return when (brandName.toUpperCase(Locale.ROOT)) {
+            Brands.ADIDAS.apiName -> Brands.ADIDAS.image
+            Brands.NIKE.apiName -> Brands.NIKE.image
+            Brands.CONVERSE.apiName -> Brands.CONVERSE.image
+            Brands.SAUCONY.apiName -> Brands.SAUCONY.image
+            Brands.JORDAN.apiName -> Brands.JORDAN.image
+            Brands.ASICS.apiName -> Brands.ASICS.image
+            Brands.NEW_BALANCE.apiName -> Brands.NEW_BALANCE.image
+            Brands.PUMA.apiName -> Brands.PUMA.image
+            Brands.UNDER_ARMOUR.apiName -> Brands.UNDER_ARMOUR.image
+            Brands.VANS.apiName -> Brands.VANS.image
+            Brands.OTHER.apiName -> Brands.OTHER.image
+            Brands.REEBOK.apiName -> Brands.REEBOK.image
+            Brands.YEEZY.apiName -> Brands.YEEZY.image
+            else -> R.drawable.ic_nike
+        }
+    }
+
 
     companion object {
         fun getInstance(context: Context, sneakerId: String) {
@@ -74,5 +130,8 @@ class SneakerDetailActivity : AppCompatActivity() {
             intent.putExtra(SneakerDexConstants.SNEAKER_ID_EXTRA, sneakerId)
             context.startActivity(intent)
         }
+
+        const val MALE_GENDER_TEXT = "Masculino"
+        const val FEMALE_GENDER_TEXT = "Feminino"
     }
 }

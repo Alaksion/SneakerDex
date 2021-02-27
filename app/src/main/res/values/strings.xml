@@ -5,4 +5,8 @@
     <string name="home">Home</string>
     <string name="favorites">Favorites</string>
     <string name="sneakers_list">Sneakers List</string>
+    <string name="detalhes">Detalhes</string>
+    <string name="data_de_lan_amento">Data de lançamento</string>
+    <string name="g_nero">Gênero</string>
+    <string name="ano_de_lan_amento">Ano de lançamento</string>
 </resources>
