@@ -46,6 +46,10 @@ class SneakerDetailActivity : AppCompatActivity() {
         viewBinding.ivBackButton.setOnClickListener() {
             finish()
         }
+
+        viewBinding.btAddCart.setOnClickListener(){
+            Toast.makeText(this, "Clicado", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setObservers() {
@@ -80,18 +84,12 @@ class SneakerDetailActivity : AppCompatActivity() {
         viewBinding.ivSneakerImage.setImageFromUrl(sneaker.media.smallImageUrl)
         viewBinding.tvSneakerName.text = sneaker.shoe
         viewBinding.tvRetailPrice.text = formattedPrice
-        viewBinding.tvColorway.text = sneaker.colorway
-        viewBinding.tvGender.text = setSneakerGenderText(sneaker.gender)
-        viewBinding.tvReleaseYear.text = sneaker.year.toString()
+
+        viewBinding.tvColorway.text =
+            String.format(resources.getString(R.string.colorway_text), sneaker.colorway)
         setBrandLogo(sneaker.brand)
     }
 
-    private fun setSneakerGenderText(gender: String): String {
-        return if (gender == "men")
-            MALE_GENDER_TEXT
-        else
-            FEMALE_GENDER_TEXT
-    }
 
     private fun setBrandLogo(brandName: String) {
         val brandImage = getLogoDrawableId(brandName)

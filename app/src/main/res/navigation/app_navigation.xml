@@ -10,9 +10,4 @@
         android:name="com.alaksion.sneakerdex.presentation.sneakerlist.SneakerListFragment"
         android:label="fragment_sneaker_list"
         tools:layout="@layout/fragment_sneaker_list" />
-    <fragment
-        android:id="@+id/frag_favorites_list"
-        android:name="com.alaksion.sneakerdex.presentation.sneakerlist.FavoriteSneakersListFragment"
-        android:label="fragment_favorite_sneakers_list"
-        tools:layout="@layout/fragment_favorite_sneakers_list" />
 </navigation>

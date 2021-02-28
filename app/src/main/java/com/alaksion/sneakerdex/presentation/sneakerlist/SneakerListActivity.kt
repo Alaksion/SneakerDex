@@ -18,13 +18,5 @@ class SneakerListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = DataBindingUtil.setContentView(this, layoutId)
         setContentView(viewBinding.root)
-        setUpBottomNavigation()
     }
-
-
-    private fun setUpBottomNavigation() {
-        val navController = findNavController(R.id.f_nav_host)
-        viewBinding.bnMenu.setupWithNavController(navController)
-    }
-    
 }

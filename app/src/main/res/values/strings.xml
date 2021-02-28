@@ -9,4 +9,8 @@
     <string name="data_de_lan_amento">Data de lançamento</string>
     <string name="g_nero">Gênero</string>
     <string name="ano_de_lan_amento">Ano de lançamento</string>
+    <string name="pre_o">Preço</string>
+    <string name="colorway_text">\"%1$s\"</string>
+    <string name="adicionar_ao_carrinho">Adicionar ao carrinho</string>
+    <string name="snkrs">SNKRS.</string>
 </resources>
