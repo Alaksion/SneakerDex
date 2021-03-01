@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.alaksion.sneakerdex.data.model.SneakerData
 import com.alaksion.sneakerdex.data.model.SneakerResponseData
 import com.alaksion.sneakerdex.domain.usecase.GetSneakerUseCase
+import com.alaksion.sneakerdex.presentation.model.SneakerSizes
 import com.alaksion.sneakerdex.shared.listeners.ApiListener
 import com.alaksion.sneakerdex.shared.listeners.ValidationListener
 
@@ -23,6 +24,9 @@ class SneakerDetailViewModel(application: Application): AndroidViewModel(applica
     private val mIsLoading = MutableLiveData<Boolean>()
     var isLoading : LiveData<Boolean> = mIsLoading
 
+    private val mSelectedSize = MutableLiveData<SneakerSizes>()
+    var selectedSize : LiveData<SneakerSizes> = mSelectedSize
+
 
     fun getSneaker(sneakerId: String){
         mIsLoading.value = true
@@ -38,5 +42,9 @@ class SneakerDetailViewModel(application: Application): AndroidViewModel(applica
                 mIsLoading.value = false
             }
         }, sneakerId)
+    }
+
+    fun selectSneakerSize(sneakerSizes: SneakerSizes){
+        mSelectedSize.value = sneakerSizes
     }
 }

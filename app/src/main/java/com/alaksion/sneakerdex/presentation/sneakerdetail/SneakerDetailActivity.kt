@@ -40,7 +40,6 @@ class SneakerDetailActivity : AppCompatActivity() {
         getExtras()
         setListeners()
         setObservers()
-        hideUi()
         setUpRecycler()
         setUpAdapterListener()
         mViewModel.getSneaker(sneakerId)
@@ -76,10 +75,6 @@ class SneakerDetailActivity : AppCompatActivity() {
             viewBinding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         })
 
-    }
-
-    private fun hideUi() {
-        viewBinding.clContent.visibility = View.INVISIBLE
     }
 
     private fun showUi() {
@@ -138,7 +133,7 @@ class SneakerDetailActivity : AppCompatActivity() {
     private fun setUpAdapterListener() {
         this.adapter.attachListener(object : SneakerSizeListener {
             override fun onSizeItemClick(size: SneakerSizes) {
-                selectedSize = size
+                mViewModel.selectSneakerSize(size)
                 adapter.handleItemChange(size)
             }
         })

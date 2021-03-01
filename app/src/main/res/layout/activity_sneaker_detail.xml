@@ -49,6 +49,8 @@
             tools:src="@drawable/detail_sneaker_template" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="invisible"
+            tools:visibility="visible"
             android:id="@+id/cl_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -106,12 +108,24 @@
                 tools:text="White/Grey"
                 android:layout_marginTop="5dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
+            <TextView
+                android:id="@+id/tv_sizes_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_colorway"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="10dp"
+                android:text="@string/tamanhos_dispon_veis"
+                android:fontFamily="@font/archivo_bold"
+                android:textColor="@color/title_grey"
+                android:textSize="18sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_sizes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tv_colorway"
+                app:layout_constraintTop_toBottomOf="@id/tv_sizes_title"
                 android:paddingHorizontal="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"/>
