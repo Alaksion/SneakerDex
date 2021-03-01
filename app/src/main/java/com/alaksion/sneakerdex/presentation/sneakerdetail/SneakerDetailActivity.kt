@@ -5,25 +5,31 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alaksion.sneakerdex.R
 import com.alaksion.sneakerdex.data.model.SneakerData
 import com.alaksion.sneakerdex.databinding.ActivitySneakerDetailBinding
 import com.alaksion.sneakerdex.presentation.model.Brands
+import com.alaksion.sneakerdex.presentation.model.SneakerSizes
+import com.alaksion.sneakerdex.presentation.sneakerdetail.adapter.SneakerSizeAdapter
+import com.alaksion.sneakerdex.presentation.sneakerdetail.listener.SneakerSizeListener
 import com.alaksion.sneakerdex.shared.constants.SneakerDexConstants
 import com.alaksion.sneakerdex.shared.extensions.ImageViewExtensions.setImageFromUrl
 import java.util.*
+
 
 class SneakerDetailActivity : AppCompatActivity() {
 
     private lateinit var viewBinding: ActivitySneakerDetailBinding
     private lateinit var sneakerId: String
     private lateinit var mViewModel: SneakerDetailViewModel
+    private val adapter = SneakerSizeAdapter()
+    private var selectedSize: SneakerSizes? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +41,8 @@ class SneakerDetailActivity : AppCompatActivity() {
         setListeners()
         setObservers()
         hideUi()
+        setUpRecycler()
+        setUpAdapterListener()
         mViewModel.getSneaker(sneakerId)
     }
 
@@ -47,7 +55,7 @@ class SneakerDetailActivity : AppCompatActivity() {
             finish()
         }
 
-        viewBinding.btAddCart.setOnClickListener(){
+        viewBinding.btAddCart.setOnClickListener() {
             Toast.makeText(this, "Clicado", Toast.LENGTH_SHORT).show()
         }
     }
@@ -121,6 +129,21 @@ class SneakerDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun setUpRecycler() {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        viewBinding.rvSizes.layoutManager = layoutManager
+        viewBinding.rvSizes.adapter = adapter
+    }
+
+    private fun setUpAdapterListener() {
+        this.adapter.attachListener(object : SneakerSizeListener {
+            override fun onSizeItemClick(size: SneakerSizes) {
+                selectedSize = size
+                adapter.handleItemChange(size)
+            }
+        })
+
+    }
 
     companion object {
         fun getInstance(context: Context, sneakerId: String) {
@@ -128,8 +151,5 @@ class SneakerDetailActivity : AppCompatActivity() {
             intent.putExtra(SneakerDexConstants.SNEAKER_ID_EXTRA, sneakerId)
             context.startActivity(intent)
         }
-
-        const val MALE_GENDER_TEXT = "Masculino"
-        const val FEMALE_GENDER_TEXT = "Feminino"
     }
 }
