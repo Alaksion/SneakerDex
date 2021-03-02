@@ -75,6 +75,9 @@ class SneakerDetailActivity : AppCompatActivity() {
             viewBinding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         })
 
+        mViewModel.selectedSize.observe(this, Observer {
+            adapter.handleItemChange(it)
+        })
     }
 
     private fun showUi() {
@@ -134,7 +137,6 @@ class SneakerDetailActivity : AppCompatActivity() {
         this.adapter.attachListener(object : SneakerSizeListener {
             override fun onSizeItemClick(size: SneakerSizes) {
                 mViewModel.selectSneakerSize(size)
-                adapter.handleItemChange(size)
             }
         })
 
