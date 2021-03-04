@@ -131,21 +131,6 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"/>
 
-            <Button
-                android:id="@+id/bt_add_cart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="@color/app_orange"
-                android:padding="15dp"
-                android:text="@string/adicionar_ao_carrinho"
-                android:textAllCaps="false"
-                android:fontFamily="@font/archivo_bold"
-                android:textSize="18sp"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar

@@ -52,10 +52,6 @@ class SneakerDetailActivity : AppCompatActivity() {
         viewBinding.ivBackButton.setOnClickListener() {
             finish()
         }
-
-        viewBinding.btAddCart.setOnClickListener() {
-            Toast.makeText(this, "Clicado", Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun setObservers() {
