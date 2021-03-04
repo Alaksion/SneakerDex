@@ -1,4 +1,3 @@
-![LogoTIpo](https://repository-images.githubusercontent.com/249491356/780a3180-7385-11ea-8994-775b8a6fdfd3)
 <details open="open">
   <summary>Tabela de Conteúdos</summary>
   <ol>
