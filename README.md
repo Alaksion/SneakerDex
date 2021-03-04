@@ -54,12 +54,12 @@ A aplicação possui duas pricipais funcionalidades em sua versão mobile:
 
 Exemplo da tela de listagem:
 
-![Listagem](https://i.imgur.com/tz9AcmL.png)
+![Listagem](https://i.imgur.com/GDdFBOk.png)
 
 
 Exemplo da tela de detalhes:
 
-![Detalbe](https://i.imgur.com/jbdGG1A.png)
+![Detalbe](https://i.imgur.com/smR0Lfu.png)
 
 
 <!-- LICENSE -->
