@@ -53,7 +53,7 @@ class SneakerRepositoryImpl : SneakersRepository {
                 if (response.isSuccessful) {
                     response.body()?.let { apiListener.onSuccess(it) }
                 } else {
-                    apiListener.onError(response.errorBody().toString())
+                    apiListener.onError(response.message())
                 }
             }
         })

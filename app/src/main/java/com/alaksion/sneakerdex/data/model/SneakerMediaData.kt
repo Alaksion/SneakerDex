@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 data class SneakerMediaData(
     @SerializedName(value = "imageUrl")
-    val imageUrl : String,
+    val imageUrl : String?,
 
     @SerializedName(value = "smallImageUrl")
-    val smallImageUrl : String,
+    val smallImageUrl : String?,
 
     @SerializedName(value = "thumbUrl")
-    val thumbUrl : String
+    val thumbUrl : String?
 ) {
 }

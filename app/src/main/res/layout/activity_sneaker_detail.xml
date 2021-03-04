@@ -115,7 +115,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_colorway"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/tamanhos_dispon_veis"
                 android:fontFamily="@font/archivo_bold"
                 android:textColor="@color/title_grey"
@@ -123,6 +123,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_sizes"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tv_sizes_title"

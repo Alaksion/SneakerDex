@@ -10,7 +10,7 @@ import com.alaksion.sneakerdex.presentation.sneakerlist.viewholder.SneakerViewHo
 
 class SneakerAdapter : RecyclerView.Adapter<SneakerViewHolder>() {
 
-    private val sneakerList: MutableList<SneakerData> = ArrayList()
+    private var sneakerList: MutableList<SneakerData> = ArrayList()
     private lateinit var listener: SneakerListClickListener
 
 
@@ -29,8 +29,13 @@ class SneakerAdapter : RecyclerView.Adapter<SneakerViewHolder>() {
         holder.bindItemData(sneakerList[position])
     }
 
-    fun updateList(list: List<SneakerData>){
+    fun addToList(list: List<SneakerData>){
         sneakerList.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun replaceList(list: List<SneakerData>){
+        sneakerList = list.toMutableList()
         notifyDataSetChanged()
     }
 

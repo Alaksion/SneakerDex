@@ -19,19 +19,17 @@ import com.alaksion.sneakerdex.presentation.sneakerlist.listener.SneakerListClic
 
 class SneakerListFragment : Fragment() {
 
-    private lateinit var mListViewModel: SneakerListViewModel
+    private lateinit var mViewModel: SneakerListViewModel
     private lateinit var viewBinding: FragmentSneakerListBinding
 
     private val sneakerAdapter = SneakerAdapter()
-
-    private var currentPage = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        mListViewModel = ViewModelProvider(this).get(SneakerListViewModel::class.java)
+        mViewModel = ViewModelProvider(this).get(SneakerListViewModel::class.java)
         viewBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_sneaker_list, container, false)
 
@@ -44,11 +42,7 @@ class SneakerListFragment : Fragment() {
         setUpRecyclerAutoScrollListener()
         setUpAdapterListener()
         setUpObservers()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        loadSneakersList()
+        setUpListener()
     }
 
     private fun setupRecyclerAdapter() {
@@ -63,8 +57,7 @@ class SneakerListFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    currentPage++
-                    loadSneakersList()
+                    mViewModel.handleChangePage()
                 }
             }
         })
@@ -78,30 +71,45 @@ class SneakerListFragment : Fragment() {
         })
     }
 
-    private fun loadSneakersList() {
-        mListViewModel.getSneakers(currentPage.toString())
-    }
-
     private fun setUpObservers() {
-        mListViewModel.sneakerList.observe(viewLifecycleOwner, Observer {
+        mViewModel.sneakerList.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) {
-                sneakerAdapter.updateList(it)
+                if (mViewModel.currentPage.value == 0) {
+                    sneakerAdapter.replaceList(it)
+                } else {
+                    sneakerAdapter.addToList(it)
+                }
             }
         })
 
-        mListViewModel.validationListener.observe(viewLifecycleOwner, Observer {
+        mViewModel.validationListener.observe(viewLifecycleOwner, Observer {
             if (!it.getSuccess()) {
                 Toast.makeText(requireActivity(), it.getMessage(), Toast.LENGTH_SHORT).show()
             }
         })
 
-        mListViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+        mViewModel.isLoading.observe(viewLifecycleOwner, Observer {
             if (it) {
                 viewBinding.progressbar.visibility = View.VISIBLE
             } else {
                 viewBinding.progressbar.visibility = View.GONE
             }
         })
+
+        mViewModel.currentPage.observe(viewLifecycleOwner, Observer {
+            mViewModel.getSneakers()
+        })
+
+        mViewModel.nameFilter.observe(viewLifecycleOwner, Observer {
+            mViewModel.resetPagination()
+        })
+    }
+
+    private fun setUpListener() {
+        viewBinding.ivSearchButton.setOnClickListener() {
+            val nameFilter = viewBinding.etSneakerNameFilter.text.toString()
+            mViewModel.setNameFilter(nameFilter)
+        }
 
     }
 
