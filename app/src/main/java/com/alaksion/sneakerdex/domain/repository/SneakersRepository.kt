@@ -1,13 +1,17 @@
 package com.alaksion.sneakerdex.domain.repository
 
-import com.alaksion.sneakerdex.data.model.SneakerData
+import androidx.lifecycle.LiveData
 import com.alaksion.sneakerdex.data.model.SneakerListResponseData
 import com.alaksion.sneakerdex.data.model.SneakerResponseData
-import com.alaksion.sneakerdex.data.repository.request.GetSneakersRequestParams
-import com.alaksion.sneakerdex.shared.listeners.ApiListener
+import com.alaksion.sneakerdex.data.model.GetSneakersRequestParams
+import com.alaksion.sneakerdex.domain.model.SneakerListResponse
+import com.alaksion.sneakerdex.shared.network.Resource
+import retrofit2.Response
 
 interface SneakersRepository {
-    fun getSneakers(apiListener: ApiListener<SneakerListResponseData>, requestParams: GetSneakersRequestParams)
+    suspend fun getSneakers(
+        requestParams: GetSneakersRequestParams
+    ): LiveData<Resource<SneakerListResponseData>>
 
-    fun getSneaker(apiListener: ApiListener<SneakerResponseData>, sneakerId: String)
+    suspend fun getSneaker(sneakerId: String): LiveData<Resource<SneakerResponseData>>
 }

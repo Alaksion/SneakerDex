@@ -1,5 +1,6 @@
 package com.alaksion.sneakerdex.data.model
 
+import com.alaksion.sneakerdex.domain.model.Sneaker
 import com.google.gson.annotations.SerializedName
 
 data class SneakerData(
@@ -38,4 +39,19 @@ data class SneakerData(
 
     @SerializedName(value = "year")
     val year: Int
+)
+
+fun SneakerData.mapToDomain() = Sneaker(
+    id = this.id,
+    brand = this.brand,
+    colorway = this.colorway,
+    gender = this.gender,
+    media = this.media.mapToDomain(),
+    releaseDate = this.releaseDate,
+    retailPrice = this.retailPrice,
+    styleId = this.styleId,
+    shoe = this.shoe,
+    name = this.name,
+    title = this.title,
+    year = this.year
 )

@@ -1,9 +1,10 @@
 package com.alaksion.sneakerdex.data.remote
 
-import com.alaksion.sneakerdex.data.model.SneakerData
+import androidx.lifecycle.LiveData
 import com.alaksion.sneakerdex.data.model.SneakerListResponseData
 import com.alaksion.sneakerdex.data.model.SneakerResponseData
-import retrofit2.Call
+import com.alaksion.sneakerdex.shared.network.RetrofitClient
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -44,8 +45,12 @@ interface SneakersService {
 
         @Query("sort")
         sort: String?
-    ): Call<SneakerListResponseData>
+    ): Response<LiveData<SneakerListResponseData>>
 
     @GET("/v1/sneakers/{sneakerId}")
-    fun getSneaker(@Path(value = "sneakerId") sneakerId: String): Call<SneakerResponseData>
+    fun getSneaker(@Path(value = "sneakerId") sneakerId: String): Response<LiveData<SneakerResponseData>>
+
+    companion object {
+        val INSTANCE = RetrofitClient.createService(SneakersService::class.java)
+    }
 }

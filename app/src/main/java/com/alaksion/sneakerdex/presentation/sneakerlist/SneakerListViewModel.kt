@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alaksion.sneakerdex.data.model.SneakerData
 import com.alaksion.sneakerdex.data.model.SneakerListResponseData
-import com.alaksion.sneakerdex.data.repository.request.GetSneakersRequestParams
+import com.alaksion.sneakerdex.data.model.GetSneakersRequestParams
 import com.alaksion.sneakerdex.domain.usecase.GetSneakersListUseCase
 import com.alaksion.sneakerdex.shared.listeners.ApiListener
 import com.alaksion.sneakerdex.shared.listeners.ValidationListener
