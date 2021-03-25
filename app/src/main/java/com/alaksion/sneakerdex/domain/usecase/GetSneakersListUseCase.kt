@@ -18,9 +18,8 @@ class GetSneakersListUseCase(
 
     suspend operator fun invoke(requestParams: GetSneakersRequestParams): LiveData<Resource<SneakerListResponse>> {
         return Transformations.map(repositoryImpl.getSneakers(requestParams)) { resource ->
-            when (resource) {
-                is Resource.Success -> resource.data?.mapToDomain()
-                is Resource.Error -> Resource.Error<>
+            resource.resourceType {
+                it?.mapToDomain()
             }
         }
     }
