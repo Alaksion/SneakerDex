@@ -1,7 +1,5 @@
 package com.alaksion.sneakerdex.domain.usecase
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.alaksion.sneakerdex.data.repository.SneakerRepositoryImpl
 import com.alaksion.sneakerdex.data.model.mapToData
 import com.alaksion.sneakerdex.data.model.mapToDomain
@@ -13,11 +11,9 @@ class GetSneakersListUseCase(
     private val repositoryImpl: SneakerRepositoryImpl
 ) {
 
-    suspend operator fun invoke(requestParams: GetSneakersRequestParams): LiveData<Resource<SneakerListResponse>> {
-        return Transformations.map(repositoryImpl.getSneakers(requestParams.mapToData())) { resource ->
-            resource.resourceType {
-                it?.mapToDomain()
-            }
+    suspend operator fun invoke(requestParams: GetSneakersRequestParams): Resource<SneakerListResponse> {
+        return repositoryImpl.getSneakers(requestParams.mapToData()).resourceType {
+            it?.mapToDomain()
         }
     }
 }

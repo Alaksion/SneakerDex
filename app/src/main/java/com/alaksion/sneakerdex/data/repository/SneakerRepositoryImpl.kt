@@ -15,32 +15,17 @@ class SneakerRepositoryImpl(
     private val dataSource: SneakerDexRemoteDataSourceImpl
 ) : SneakersRepository {
 
-    override suspend fun getSneakers(requestParamsData: GetSneakersRequestParamsData): LiveData<Resource<SneakerListResponseData>> {
-        val result = MutableLiveData<Resource<SneakerListResponseData>>()
+    override suspend fun getSneakers(requestParamsData: GetSneakersRequestParamsData): Resource<SneakerListResponseData> {
 
-        withContext(Dispatchers.IO) {
-            val data = dataSource.getSneakers(requestParamsData)
-
-            withContext(Dispatchers.Main) {
-                result.value = data
-            }
+        return withContext(Dispatchers.IO) {
+            dataSource.getSneakers(requestParamsData)
         }
-
-        return result
-
     }
 
-    override suspend fun getSneaker(sneakerId: String): LiveData<Resource<SneakerResponseData>> {
-        val result = MutableLiveData<Resource<SneakerResponseData>>()
+    override suspend fun getSneaker(sneakerId: String): Resource<SneakerResponseData> {
 
-        withContext(Dispatchers.IO) {
-            val data = dataSource.getSneaker(sneakerId)
-
-            withContext(Dispatchers.Main) {
-                result.value = data
-            }
+        return withContext(Dispatchers.IO) {
+            dataSource.getSneaker(sneakerId)
         }
-
-        return result
     }
 }

@@ -10,11 +10,9 @@ import com.alaksion.sneakerdex.shared.network.Resource
 class GetSneakerUseCase(
     private val repositoryImpl: SneakerRepositoryImpl
 ) {
-    suspend operator fun invoke(sneakerId: String): LiveData<Resource<SneakersResponse>> {
-        return Transformations.map(repositoryImpl.getSneaker(sneakerId)) { resource ->
-            resource.resourceType {
-                it?.mapToDomain()
-            }
+    suspend operator fun invoke(sneakerId: String): Resource<SneakersResponse> {
+        return repositoryImpl.getSneaker(sneakerId).resourceType {
+            it?.mapToDomain()
         }
     }
 }

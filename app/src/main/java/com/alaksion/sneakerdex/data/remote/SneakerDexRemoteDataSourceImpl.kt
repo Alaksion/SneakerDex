@@ -1,14 +1,10 @@
 package com.alaksion.sneakerdex.data.remote
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.alaksion.sneakerdex.data.datasource.SneakerDexRemoteDataSource
 import com.alaksion.sneakerdex.data.model.GetSneakersRequestParamsData
 import com.alaksion.sneakerdex.data.model.SneakerListResponseData
 import com.alaksion.sneakerdex.data.model.SneakerResponseData
 import com.alaksion.sneakerdex.shared.network.Resource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class SneakerDexRemoteDataSourceImpl : SneakerDexRemoteDataSource {
 

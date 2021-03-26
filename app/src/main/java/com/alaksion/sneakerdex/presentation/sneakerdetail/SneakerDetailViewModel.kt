@@ -32,12 +32,13 @@ class SneakerDetailViewModel(
         mIsLoading.value = true
 
         viewModelScope.launch {
-            val result = useCase.invoke(sneakerId).value
+            val result = useCase.invoke(sneakerId)
 
             withContext(Dispatchers.Main) {
                 mSneakerInfo.value = result
             }
         }
+        mIsLoading.value = false
     }
 
     fun selectSneakerSize(sneakerSizes: SneakerSizes){

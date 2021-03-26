@@ -51,7 +51,7 @@ class SneakerListViewModel(
             null
         )
         viewModelScope.launch {
-            val result = useCase.invoke(requestParams).value
+            val result = useCase.invoke(requestParams)
 
             withContext(Dispatchers.Main) {
                 mSneakersList.value = result
