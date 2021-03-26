@@ -2,11 +2,9 @@ package com.alaksion.sneakerdex.domain.usecase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.alaksion.sneakerdex.data.model.SneakerResponseData
 import com.alaksion.sneakerdex.data.model.mapToDomain
 import com.alaksion.sneakerdex.data.repository.SneakerRepositoryImpl
 import com.alaksion.sneakerdex.domain.model.SneakersResponse
-import com.alaksion.sneakerdex.shared.listeners.ApiListener
 import com.alaksion.sneakerdex.shared.network.Resource
 
 class GetSneakerUseCase(

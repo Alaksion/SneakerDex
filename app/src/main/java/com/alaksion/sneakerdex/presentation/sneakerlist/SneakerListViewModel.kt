@@ -4,37 +4,37 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.alaksion.sneakerdex.data.model.SneakerData
-import com.alaksion.sneakerdex.data.model.SneakerListResponseData
-import com.alaksion.sneakerdex.data.model.GetSneakersRequestParams
+import androidx.lifecycle.viewModelScope
+import com.alaksion.sneakerdex.domain.model.GetSneakersRequestParams
+import com.alaksion.sneakerdex.domain.model.SneakerListResponse
 import com.alaksion.sneakerdex.domain.usecase.GetSneakersListUseCase
-import com.alaksion.sneakerdex.shared.listeners.ApiListener
-import com.alaksion.sneakerdex.shared.listeners.ValidationListener
+import com.alaksion.sneakerdex.shared.network.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class SneakerListViewModel(application: Application) : AndroidViewModel(application) {
+class SneakerListViewModel(
+    application: Application,
+    private val useCase: GetSneakersListUseCase
+) : AndroidViewModel(application) {
 
     companion object {
         const val RESULTS_PER_PAGE = "10"
     }
 
-    private val getSneakersUseCase = GetSneakersListUseCase()
-
-    private val mSneakersList = MutableLiveData<List<SneakerData>>()
-    var sneakerList : LiveData<List<SneakerData>> = mSneakersList
-
-    private val mValidationListener = MutableLiveData<ValidationListener>()
-    var validationListener : LiveData<ValidationListener> = mValidationListener
+    private val mSneakersList = MutableLiveData<Resource<SneakerListResponse>>()
+    var sneakerList: LiveData<Resource<SneakerListResponse>> = mSneakersList
 
     private val mIsLoading = MutableLiveData<Boolean>()
-    var isLoading : LiveData<Boolean> = mIsLoading
+    var isLoading: LiveData<Boolean> = mIsLoading
 
     private val mCurrentPage = MutableLiveData(0)
-    var currentPage : LiveData<Int> = mCurrentPage
+    var currentPage: LiveData<Int> = mCurrentPage
 
     private val mNameFilter = MutableLiveData<String>()
     var nameFilter: LiveData<String> = mNameFilter
 
-    fun getSneakers(){
+    fun getSneakers() {
         mIsLoading.value = true
 
         val requestParams = GetSneakersRequestParams(
@@ -50,19 +50,13 @@ class SneakerListViewModel(application: Application) : AndroidViewModel(applicat
             null,
             null
         )
+        viewModelScope.launch {
+            val result = useCase.invoke(requestParams).value
 
-        getSneakersUseCase.execute(object : ApiListener<SneakerListResponseData> {
-            override fun onSuccess(response: SneakerListResponseData) {
-                mSneakersList.value = response.results
-                mIsLoading.value = false
+            withContext(Dispatchers.Main) {
+                mSneakersList.value = result
             }
-
-            override fun onError(errorMessage: String) {
-                mValidationListener.value = ValidationListener(errorMessage)
-                mIsLoading.value = false
-            }
-
-        }, requestParams)
+        }
     }
 
     fun handleChangePage() {
@@ -73,7 +67,7 @@ class SneakerListViewModel(application: Application) : AndroidViewModel(applicat
         mCurrentPage.value = 0
     }
 
-    fun setNameFilter(nameFilter: String){
-        mNameFilter.value = if(nameFilter.isEmpty()) null else nameFilter
+    fun setNameFilter(nameFilter: String) {
+        mNameFilter.value = if (nameFilter.isEmpty()) null else nameFilter
     }
 }

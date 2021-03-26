@@ -1,4 +1,4 @@
-package com.alaksion.sneakerdex.data.model
+package com.alaksion.sneakerdex.domain.model
 
 data class GetSneakersRequestParams(
     val limit : String,

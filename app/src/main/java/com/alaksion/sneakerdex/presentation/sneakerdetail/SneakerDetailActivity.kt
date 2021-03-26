@@ -7,19 +7,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alaksion.sneakerdex.R
-import com.alaksion.sneakerdex.data.model.SneakerData
 import com.alaksion.sneakerdex.databinding.ActivitySneakerDetailBinding
+import com.alaksion.sneakerdex.domain.model.SneakersResponse
 import com.alaksion.sneakerdex.presentation.model.Brands
 import com.alaksion.sneakerdex.presentation.model.SneakerSizes
 import com.alaksion.sneakerdex.presentation.sneakerdetail.adapter.SneakerSizeAdapter
 import com.alaksion.sneakerdex.presentation.sneakerdetail.listener.SneakerSizeListener
 import com.alaksion.sneakerdex.shared.constants.SneakerDexConstants
 import com.alaksion.sneakerdex.shared.extensions.ImageViewExtensions.setImageFromUrl
+import com.alaksion.sneakerdex.shared.network.Resource
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 
@@ -27,14 +27,13 @@ class SneakerDetailActivity : AppCompatActivity() {
 
     private lateinit var viewBinding: ActivitySneakerDetailBinding
     private lateinit var sneakerId: String
-    private lateinit var mViewModel: SneakerDetailViewModel
+    private val mViewModel by viewModel<SneakerDetailViewModel>()
     private val adapter = SneakerSizeAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_sneaker_detail)
+        viewBinding = ActivitySneakerDetailBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-        mViewModel = ViewModelProvider(this).get(SneakerDetailViewModel::class.java)
 
         getExtras()
         setListeners()
@@ -45,7 +44,7 @@ class SneakerDetailActivity : AppCompatActivity() {
     }
 
     private fun getExtras() {
-        sneakerId = intent.getStringExtra(SneakerDexConstants.SNEAKER_ID_EXTRA).toString()
+        sneakerId = intent.getStringExtra(SneakerDexConstants.SNEAKER_ID_BUNDLE).toString()
     }
 
     private fun setListeners() {
@@ -55,15 +54,15 @@ class SneakerDetailActivity : AppCompatActivity() {
     }
 
     private fun setObservers() {
-        mViewModel.validationListener.observe(this, Observer {
-            if (!it.getSuccess()) {
-                Toast.makeText(this, it.getMessage(), Toast.LENGTH_SHORT).show()
+        mViewModel.sneakerInfo.observe(this, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    loadSneakerInfoIntoUi(response.data)
+                    showUi()
+                }
+                is Resource.Error -> Toast.makeText(this, response.errorMsg, Toast.LENGTH_SHORT)
+                    .show()
             }
-        })
-
-        mViewModel.sneakerInfo.observe(this, Observer {
-            loadSneakerInfoIntoUi(it)
-            showUi()
         })
 
         mViewModel.isLoading.observe(this, Observer {
@@ -79,18 +78,19 @@ class SneakerDetailActivity : AppCompatActivity() {
         viewBinding.clContent.visibility = View.VISIBLE
     }
 
-    private fun loadSneakerInfoIntoUi(sneaker: SneakerData) {
-        val formattedPrice = "$ ${sneaker.retailPrice}"
+    private fun loadSneakerInfoIntoUi(sneakerInfo: SneakersResponse?) {
+        val sneaker = sneakerInfo?.results?.get(0)
 
-        viewBinding.ivSneakerImage.setImageFromUrl(sneaker.media.smallImageUrl)
-        viewBinding.tvSneakerName.text = sneaker.shoe
+        val formattedPrice = "$ ${sneaker?.retailPrice}"
+
+        viewBinding.ivSneakerImage.setImageFromUrl(sneaker?.media?.smallImageUrl)
+        viewBinding.tvSneakerName.text = sneaker?.shoe
         viewBinding.tvRetailPrice.text = formattedPrice
 
         viewBinding.tvColorway.text =
-            String.format(resources.getString(R.string.colorway_text), sneaker.colorway)
-        setBrandLogo(sneaker.brand)
+            String.format(resources.getString(R.string.colorway_text), sneaker?.colorway)
+        setBrandLogo(sneaker?.brand!!)
     }
-
 
     private fun setBrandLogo(brandName: String) {
         val brandImage = getLogoDrawableId(brandName)
@@ -140,7 +140,7 @@ class SneakerDetailActivity : AppCompatActivity() {
     companion object {
         fun getInstance(context: Context, sneakerId: String) {
             val intent = Intent(context, SneakerDetailActivity::class.java)
-            intent.putExtra(SneakerDexConstants.SNEAKER_ID_EXTRA, sneakerId)
+            intent.putExtra(SneakerDexConstants.SNEAKER_ID_BUNDLE, sneakerId)
             context.startActivity(intent)
         }
     }

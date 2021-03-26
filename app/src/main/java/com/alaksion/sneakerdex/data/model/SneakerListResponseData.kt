@@ -13,5 +13,5 @@ data class SneakerListResponseData(
 
 fun SneakerListResponseData.mapToDomain() = SneakerListResponse(
     count = this.count,
-    results = this.results
+    results = this.results.map { item -> item.mapToDomain() }
 )

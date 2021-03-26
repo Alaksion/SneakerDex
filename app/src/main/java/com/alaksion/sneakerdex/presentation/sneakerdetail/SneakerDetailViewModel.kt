@@ -4,22 +4,22 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.alaksion.sneakerdex.data.model.SneakerData
-import com.alaksion.sneakerdex.data.model.SneakerResponseData
+import androidx.lifecycle.viewModelScope
+import com.alaksion.sneakerdex.domain.model.SneakersResponse
 import com.alaksion.sneakerdex.domain.usecase.GetSneakerUseCase
 import com.alaksion.sneakerdex.presentation.model.SneakerSizes
-import com.alaksion.sneakerdex.shared.listeners.ApiListener
-import com.alaksion.sneakerdex.shared.listeners.ValidationListener
+import com.alaksion.sneakerdex.shared.network.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class SneakerDetailViewModel(application: Application): AndroidViewModel(application) {
+class SneakerDetailViewModel(
+    application: Application,
+    private val useCase: GetSneakerUseCase
+): AndroidViewModel(application) {
 
-    private val getSneakerUseCase = GetSneakerUseCase()
-
-    private val mValidationListener = MutableLiveData<ValidationListener>()
-    var validationListener : LiveData<ValidationListener> = mValidationListener
-
-    private val mSneakerInfo = MutableLiveData<SneakerData>()
-    var sneakerInfo : LiveData<SneakerData> = mSneakerInfo
+    private val mSneakerInfo = MutableLiveData<Resource<SneakersResponse>>()
+    var sneakerInfo : LiveData<Resource<SneakersResponse>> = mSneakerInfo
 
     private val mIsLoading = MutableLiveData<Boolean>()
     var isLoading : LiveData<Boolean> = mIsLoading
@@ -28,20 +28,16 @@ class SneakerDetailViewModel(application: Application): AndroidViewModel(applica
     var selectedSize : LiveData<SneakerSizes> = mSelectedSize
 
 
-    fun getSneaker(sneakerId: String){
+    fun getSneaker(sneakerId: String) {
         mIsLoading.value = true
 
-        getSneakerUseCase.execute(object : ApiListener<SneakerResponseData>{
-            override fun onSuccess(response: SneakerResponseData) {
-                mSneakerInfo.value = response.results[0]
-                mIsLoading.value = false
-            }
+        viewModelScope.launch {
+            val result = useCase.invoke(sneakerId).value
 
-            override fun onError(errorMessage: String) {
-                mValidationListener.value = ValidationListener(errorMessage)
-                mIsLoading.value = false
+            withContext(Dispatchers.Main) {
+                mSneakerInfo.value = result
             }
-        }, sneakerId)
+        }
     }
 
     fun selectSneakerSize(sneakerSizes: SneakerSizes){

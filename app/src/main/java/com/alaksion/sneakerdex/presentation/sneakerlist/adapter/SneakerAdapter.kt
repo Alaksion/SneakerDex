@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alaksion.sneakerdex.R
 import com.alaksion.sneakerdex.data.model.SneakerData
+import com.alaksion.sneakerdex.domain.model.Sneaker
 import com.alaksion.sneakerdex.presentation.sneakerlist.listener.SneakerListClickListener
 import com.alaksion.sneakerdex.presentation.sneakerlist.viewholder.SneakerViewHolder
 
 class SneakerAdapter : RecyclerView.Adapter<SneakerViewHolder>() {
 
-    private var sneakerList: MutableList<SneakerData> = ArrayList()
+    private var sneakerList: MutableList<Sneaker> = ArrayList()
     private lateinit var listener: SneakerListClickListener
 
 
@@ -29,12 +30,12 @@ class SneakerAdapter : RecyclerView.Adapter<SneakerViewHolder>() {
         holder.bindItemData(sneakerList[position])
     }
 
-    fun addToList(list: List<SneakerData>){
+    fun addToList(list: List<Sneaker>){
         sneakerList.addAll(list)
         notifyDataSetChanged()
     }
 
-    fun replaceList(list: List<SneakerData>){
+    fun replaceList(list: List<Sneaker>){
         sneakerList = list.toMutableList()
         notifyDataSetChanged()
     }

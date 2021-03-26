@@ -6,20 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alaksion.sneakerdex.R
 import com.alaksion.sneakerdex.databinding.FragmentSneakerListBinding
+import com.alaksion.sneakerdex.domain.model.Sneaker
+import com.alaksion.sneakerdex.domain.model.SneakerListResponse
 import com.alaksion.sneakerdex.presentation.sneakerdetail.SneakerDetailActivity
 import com.alaksion.sneakerdex.presentation.sneakerlist.adapter.SneakerAdapter
 import com.alaksion.sneakerdex.presentation.sneakerlist.listener.SneakerListClickListener
+import com.alaksion.sneakerdex.shared.extensions.BooleanExtensions.handleOptional
+import com.alaksion.sneakerdex.shared.network.Resource
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SneakerListFragment : Fragment() {
 
-    private lateinit var mViewModel: SneakerListViewModel
+    private val mViewModel by viewModel<SneakerListViewModel>()
     private lateinit var viewBinding: FragmentSneakerListBinding
 
     private val sneakerAdapter = SneakerAdapter()
@@ -27,12 +29,9 @@ class SneakerListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        mViewModel = ViewModelProvider(this).get(SneakerListViewModel::class.java)
-        viewBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_sneaker_list, container, false)
-
+        viewBinding = FragmentSneakerListBinding.inflate(layoutInflater)
         return viewBinding.root
     }
 
@@ -72,19 +71,11 @@ class SneakerListFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        mViewModel.sneakerList.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) {
-                if (mViewModel.currentPage.value == 0) {
-                    sneakerAdapter.replaceList(it)
-                } else {
-                    sneakerAdapter.addToList(it)
-                }
-            }
-        })
-
-        mViewModel.validationListener.observe(viewLifecycleOwner, Observer {
-            if (!it.getSuccess()) {
-                Toast.makeText(requireActivity(), it.getMessage(), Toast.LENGTH_SHORT).show()
+        mViewModel.sneakerList.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> updateSneakerList(response.data)
+                is Resource.Error -> Toast.makeText(context, response.errorMsg, Toast.LENGTH_SHORT)
+                    .show()
             }
         })
 
@@ -106,11 +97,31 @@ class SneakerListFragment : Fragment() {
     }
 
     private fun setUpListener() {
-        viewBinding.ivSearchButton.setOnClickListener() {
+        viewBinding.ivSearchButton.setOnClickListener {
             val nameFilter = viewBinding.etSneakerNameFilter.text.toString()
             mViewModel.setNameFilter(nameFilter)
         }
-
     }
 
+    private fun updateSneakerList(apiResponse: SneakerListResponse?) {
+        apiResponse.let { response ->
+            val list = response?.results
+
+            if (list?.isNotEmpty().handleOptional()) {
+                incrementOrReplaceList(list)
+            }
+        }
+    }
+
+    private fun incrementOrReplaceList(list: List<Sneaker>?) {
+        if (mViewModel.currentPage.value == 0) {
+            sneakerAdapter.replaceList(list!!)
+        } else {
+            sneakerAdapter.addToList(list!!)
+        }
+
+    }
 }
+
+
+

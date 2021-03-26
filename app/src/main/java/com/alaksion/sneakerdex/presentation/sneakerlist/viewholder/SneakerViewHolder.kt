@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.alaksion.sneakerdex.R
 import com.alaksion.sneakerdex.data.model.SneakerData
+import com.alaksion.sneakerdex.domain.model.Sneaker
 import com.alaksion.sneakerdex.presentation.sneakerlist.listener.SneakerListClickListener
 import com.alaksion.sneakerdex.shared.extensions.ImageViewExtensions.setImageFromUrl
 import org.w3c.dom.Text
@@ -22,7 +23,7 @@ class SneakerViewHolder(itemView: View, private val clickListener: SneakerListCl
     private val sneakerBrand: TextView = itemView.findViewById(R.id.tv_brand_name)
     private val itemContainer: ConstraintLayout = itemView.findViewById(R.id.cl_item_container)
 
-    fun bindItemData(itemModel: SneakerData) {
+    fun bindItemData(itemModel: Sneaker) {
         val formatSneakerPrice = "$ ${itemModel.retailPrice}"
 
         sneakerText.text = itemModel.shoe
