@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface SneakersService {
 
     @GET("/v1/sneakers")
-    fun getSneakers(
+    suspend fun getSneakers(
         @Query("limit")
         limit: String,
 
@@ -45,10 +45,10 @@ interface SneakersService {
 
         @Query("sort")
         sort: String?
-    ): Response<LiveData<SneakerListResponseData>>
+    ): Response<SneakerListResponseData>
 
     @GET("/v1/sneakers/{sneakerId}")
-    fun getSneaker(@Path(value = "sneakerId") sneakerId: String): Response<LiveData<SneakerResponseData>>
+    suspend fun getSneaker(@Path(value = "sneakerId") sneakerId: String): Response<SneakerResponseData>
 
     companion object {
         val INSTANCE = RetrofitClient.createService(SneakersService::class.java)

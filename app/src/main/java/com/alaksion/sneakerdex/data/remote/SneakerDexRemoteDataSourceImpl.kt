@@ -7,13 +7,15 @@ import com.alaksion.sneakerdex.data.model.GetSneakersRequestParamsData
 import com.alaksion.sneakerdex.data.model.SneakerListResponseData
 import com.alaksion.sneakerdex.data.model.SneakerResponseData
 import com.alaksion.sneakerdex.shared.network.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class SneakerDexRemoteDataSourceImpl : SneakerDexRemoteDataSource {
 
     private val api = SneakersService.INSTANCE
 
-    override suspend fun getSneakers(requestBodyData: GetSneakersRequestParamsData): LiveData<Resource<SneakerListResponseData>> {
-        val result = MutableLiveData<Resource<SneakerListResponseData>>()
+    override suspend fun getSneakers(requestBodyData: GetSneakersRequestParamsData): Resource<SneakerListResponseData> {
+        val result: Resource<SneakerListResponseData>
 
         val request = api.getSneakers(
             requestBodyData.limit,
@@ -28,22 +30,23 @@ class SneakerDexRemoteDataSourceImpl : SneakerDexRemoteDataSource {
             requestBodyData.releaseYear,
             requestBodyData.sort
         )
-        if (request.isSuccessful) {
-            result.value = Resource.Success(request.body()?.value!!)
+
+        result = if (request.isSuccessful) {
+            Resource.Success(request.body())
         } else {
-            result.value = Resource.Error(request.message())
+            Resource.Error(request.message())
         }
         return result
     }
 
-    override suspend fun getSneaker(sneakerId: String): LiveData<Resource<SneakerResponseData>> {
-        val result = MutableLiveData<Resource<SneakerResponseData>>()
+    override suspend fun getSneaker(sneakerId: String): Resource<SneakerResponseData> {
+        val result: Resource<SneakerResponseData>
         val request = api.getSneaker(sneakerId)
 
-        if (request.isSuccessful) {
-            result.value = Resource.Success(request.body()?.value!!)
+        result = if (request.isSuccessful) {
+            Resource.Success(request.body())
         } else {
-            result.value = Resource.Error(request.message())
+            Resource.Error(request.message())
         }
 
         return result

@@ -57,6 +57,7 @@ class SneakerListViewModel(
                 mSneakersList.value = result
             }
         }
+        mIsLoading.value = false
     }
 
     fun handleChangePage() {

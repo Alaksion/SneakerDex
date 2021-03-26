@@ -8,6 +8,6 @@ import com.alaksion.sneakerdex.shared.network.Resource
 
 interface SneakerDexRemoteDataSource {
 
-    suspend fun getSneakers(requestBodyData: GetSneakersRequestParamsData): LiveData<Resource<SneakerListResponseData>>
-    suspend fun getSneaker(sneakerId: String): LiveData<Resource<SneakerResponseData>>
+    suspend fun getSneakers(requestBodyData: GetSneakersRequestParamsData): Resource<SneakerListResponseData>
+    suspend fun getSneaker(sneakerId: String): Resource<SneakerResponseData>
 }
