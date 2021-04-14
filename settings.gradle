@@ -1,3 +1,2 @@
-include ':alaksion_core'
 include ':app'
 rootProject.name = "SneakerDex"
