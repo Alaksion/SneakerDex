@@ -1,13 +1,11 @@
-package com.alaksion.sneakerdex.presentation.sneakerdetail.viewholder
+package com.alaksion.sneakerdex.presentation.sneakerdetail
 
 import android.graphics.Color
-import android.provider.CalendarContract
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.alaksion.sneakerdex.R
 import com.alaksion.sneakerdex.presentation.model.SneakerSizes
-import com.alaksion.sneakerdex.presentation.sneakerdetail.listener.SneakerSizeListener
 
 class SneakerSizeViewHolder(itemView: View, val listener: SneakerSizeListener) :
     RecyclerView.ViewHolder(itemView) {

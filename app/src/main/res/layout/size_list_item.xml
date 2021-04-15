@@ -16,7 +16,7 @@
         tools:text="BR 41"
         android:textColor="@color/black"
         android:fontFamily="@font/archivo_bold"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:layout_marginEnd="5dp"
         android:background="@drawable/sneaker_size_container_background"
         android:paddingVertical="5dp"

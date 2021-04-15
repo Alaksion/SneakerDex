@@ -13,8 +13,6 @@ import com.alaksion.sneakerdex.databinding.FragmentSneakerListBinding
 import com.alaksion.sneakerdex.domain.model.Sneaker
 import com.alaksion.sneakerdex.domain.model.SneakerListResponse
 import com.alaksion.sneakerdex.presentation.sneakerdetail.SneakerDetailActivity
-import com.alaksion.sneakerdex.presentation.sneakerlist.adapter.SneakerAdapter
-import com.alaksion.sneakerdex.presentation.sneakerlist.listener.SneakerListClickListener
 import com.alaksion.sneakerdex.shared.extensions.BooleanExtensions.handleOptional
 import com.alaksion.sneakerdex.shared.network.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -24,7 +22,8 @@ class SneakerListFragment : Fragment() {
     private val mViewModel by viewModel<SneakerListViewModel>()
     private lateinit var viewBinding: FragmentSneakerListBinding
 
-    private val sneakerAdapter = SneakerAdapter()
+    private val sneakerAdapter =
+        SneakerAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +62,8 @@ class SneakerListFragment : Fragment() {
     }
 
     private fun setUpAdapterListener() {
-        this.sneakerAdapter.attachListener(object : SneakerListClickListener {
+        this.sneakerAdapter.attachListener(object :
+            SneakerListClickListener {
             override fun onItemClick(sneakerId: String) {
                 SneakerDetailActivity.getInstance(requireActivity(), sneakerId)
             }
@@ -114,12 +114,13 @@ class SneakerListFragment : Fragment() {
     }
 
     private fun incrementOrReplaceList(list: List<Sneaker>?) {
-        if (mViewModel.currentPage.value == 0) {
-            sneakerAdapter.replaceList(list!!)
-        } else {
-            sneakerAdapter.addToList(list!!)
+        list?.run {
+            if (mViewModel.currentPage.value == 0) {
+                sneakerAdapter.replaceList(this)
+            } else {
+                sneakerAdapter.addToList(this)
+            }
         }
-
     }
 }
 

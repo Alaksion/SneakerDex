@@ -67,6 +67,6 @@
         tools:text="$ 250"
         android:textSize="22sp"
         android:fontFamily="@font/archivo_bold"
-        android:textColor="@color/app_orange"/>
+        android:textColor="@color/app_green"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

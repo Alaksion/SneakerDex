@@ -1,17 +1,13 @@
-package com.alaksion.sneakerdex.presentation.sneakerlist.viewholder
+package com.alaksion.sneakerdex.presentation.sneakerlist
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.alaksion.sneakerdex.R
-import com.alaksion.sneakerdex.data.model.SneakerData
 import com.alaksion.sneakerdex.domain.model.Sneaker
-import com.alaksion.sneakerdex.presentation.sneakerlist.listener.SneakerListClickListener
 import com.alaksion.sneakerdex.shared.extensions.ImageViewExtensions.setImageFromUrl
-import org.w3c.dom.Text
 
 
 class SneakerViewHolder(itemView: View, private val clickListener: SneakerListClickListener) :

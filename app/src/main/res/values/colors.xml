@@ -10,11 +10,12 @@
 
 
     <color name="menu_item">#DEDEE3</color>
-    <color name="app_orange">#f75239</color>
     <color name="title_grey">#47474D</color>
     <color name="detail_grey">#AEAEB3</color>
-    <color name="app_black">#1B1B1F</color>
     <color name="card_background">#eef0ff</color>
+
+    <color name="app_green">#1db954</color>
+    <color name="app_black">#191414</color>
 
 
 </resources>

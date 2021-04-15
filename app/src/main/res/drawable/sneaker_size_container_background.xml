@@ -4,14 +4,14 @@
     <item android:state_selected="false">
         <shape android:shape="rectangle">
             <corners android:radius="15dp" />
-            <solid android:color="@color/card_background" />
+            <solid android:color="@color/white" />
         </shape>
     </item>
 
     <item android:state_selected="true">
         <shape android:shape="rectangle">
             <corners android:radius="15dp" />
-            <solid android:color="@color/app_orange" />
+            <solid android:color="@color/app_green" />
         </shape>
     </item>
 

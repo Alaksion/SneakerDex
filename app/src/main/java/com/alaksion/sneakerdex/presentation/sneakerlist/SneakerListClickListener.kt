@@ -1,4 +1,4 @@
-package com.alaksion.sneakerdex.presentation.sneakerlist.listener
+package com.alaksion.sneakerdex.presentation.sneakerlist
 
 interface SneakerListClickListener {
 

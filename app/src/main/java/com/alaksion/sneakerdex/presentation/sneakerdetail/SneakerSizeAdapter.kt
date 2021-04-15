@@ -1,12 +1,10 @@
-package com.alaksion.sneakerdex.presentation.sneakerdetail.adapter
+package com.alaksion.sneakerdex.presentation.sneakerdetail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alaksion.sneakerdex.R
 import com.alaksion.sneakerdex.presentation.model.SneakerSizes
-import com.alaksion.sneakerdex.presentation.sneakerdetail.listener.SneakerSizeListener
-import com.alaksion.sneakerdex.presentation.sneakerdetail.viewholder.SneakerSizeViewHolder
 
 
 class SneakerSizeAdapter :
@@ -19,7 +17,10 @@ class SneakerSizeAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SneakerSizeViewHolder {
         val item =
             LayoutInflater.from(parent.context).inflate(R.layout.size_list_item, parent, false)
-        return SneakerSizeViewHolder(item, listener)
+        return SneakerSizeViewHolder(
+            item,
+            listener
+        )
     }
 
     override fun getItemCount(): Int {
