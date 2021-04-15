@@ -49,6 +49,8 @@ class SneakerDetailActivity : AppCompatActivity() {
 
     private fun setListeners() {
         viewBinding.ivBackButton.setOnClickListener { onBackPressed() }
+
+        viewBinding.ecActDetail.onClick = { mViewModel.getSneaker(sneakerId) }
     }
 
     private fun setObservers() {
@@ -60,7 +62,7 @@ class SneakerDetailActivity : AppCompatActivity() {
                 }
                 is Resource.Error -> {
                     viewBinding.clContent.visibility = View.GONE
-                    viewBinding.niActDetail.visibility = View.VISIBLE
+                    viewBinding.ecActDetail.visibility = View.VISIBLE
                 }
             }
         })
