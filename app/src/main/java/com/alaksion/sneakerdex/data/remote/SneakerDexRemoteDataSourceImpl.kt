@@ -4,13 +4,22 @@ import com.alaksion.sneakerdex.data.datasource.SneakerDexRemoteDataSource
 import com.alaksion.sneakerdex.data.model.GetSneakersRequestParamsData
 import com.alaksion.sneakerdex.data.model.SneakerListResponseData
 import com.alaksion.sneakerdex.data.model.SneakerResponseData
+import com.alaksion.sneakerdex.shared.network.NetWorkUtils
 import com.alaksion.sneakerdex.shared.network.Resource
 
-class SneakerDexRemoteDataSourceImpl : SneakerDexRemoteDataSource {
+class SneakerDexRemoteDataSourceImpl(
+    private val netWorkUtils: NetWorkUtils
+) :
+    SneakerDexRemoteDataSource {
 
     private val api = SneakersService.INSTANCE
 
     override suspend fun getSneakers(requestBodyData: GetSneakersRequestParamsData): Resource<SneakerListResponseData> {
+
+        if (!netWorkUtils.isConnectionAvailable()) {
+            return Resource.Error("Não foi possível conectar a internet")
+        }
+
         val result: Resource<SneakerListResponseData>
 
         val request = api.getSneakers(
@@ -36,6 +45,11 @@ class SneakerDexRemoteDataSourceImpl : SneakerDexRemoteDataSource {
     }
 
     override suspend fun getSneaker(sneakerId: String): Resource<SneakerResponseData> {
+
+        if (!netWorkUtils.isConnectionAvailable()) {
+            return Resource.Error("Não foi possível conectar a internet")
+        }
+
         val result: Resource<SneakerResponseData>
         val request = api.getSneaker(sneakerId)
 

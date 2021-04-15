@@ -6,15 +6,18 @@ import com.alaksion.sneakerdex.domain.usecase.GetSneakerUseCase
 import com.alaksion.sneakerdex.domain.usecase.GetSneakersListUseCase
 import com.alaksion.sneakerdex.presentation.sneakerdetail.SneakerDetailViewModel
 import com.alaksion.sneakerdex.presentation.sneakerlist.SneakerListViewModel
+import com.alaksion.sneakerdex.shared.network.NetWorkUtils
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val sneakerModule = module {
 
-    factory { SneakerDexRemoteDataSourceImpl() }
+    factory { SneakerDexRemoteDataSourceImpl(netWorkUtils = get()) }
     factory { SneakerRepositoryImpl(dataSource = get()) }
     factory { GetSneakerUseCase(repositoryImpl = get()) }
     factory { GetSneakersListUseCase(repositoryImpl = get()) }
+
+    factory { NetWorkUtils(context = get()) }
 
     viewModel {
         SneakerListViewModel(application = get(), useCase = get())

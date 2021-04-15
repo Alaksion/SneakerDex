@@ -15,4 +15,7 @@
     <string name="snkrs">SNKRS.</string>
     <string name="tamanhos_dispon_veis">Tamanhos disponíveis</string>
     <string name="procure_pelo_nome">Procure pelo nome</string>
+    <string name="error_component_title">Um erro inesperado aconteceu</string>
+    <string name="error_component_description">Ocorreu um erro ao buscar os dados requisitados.\n\nVerifique sua conexão ou tente novamente mais tarde.</string>
+    <string name="try_again">Tentar novamente</string>
 </resources>

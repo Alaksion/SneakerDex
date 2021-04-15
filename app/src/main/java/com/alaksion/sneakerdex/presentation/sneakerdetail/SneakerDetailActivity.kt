@@ -48,9 +48,7 @@ class SneakerDetailActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        viewBinding.ivBackButton.setOnClickListener() {
-            finish()
-        }
+        viewBinding.ivBackButton.setOnClickListener { onBackPressed() }
     }
 
     private fun setObservers() {
@@ -60,8 +58,10 @@ class SneakerDetailActivity : AppCompatActivity() {
                     loadSneakerInfoIntoUi(response.data)
                     showUi()
                 }
-                is Resource.Error -> Toast.makeText(this, response.errorMsg, Toast.LENGTH_SHORT)
-                    .show()
+                is Resource.Error -> {
+                    viewBinding.clContent.visibility = View.GONE
+                    viewBinding.niActDetail.visibility = View.VISIBLE
+                }
             }
         })
 
