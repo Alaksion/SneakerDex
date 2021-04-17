@@ -55,12 +55,13 @@ class SneakerListViewModel(
 
             withContext(Dispatchers.Main) {
                 mSneakersList.value = result
+                mIsLoading.value = false
             }
         }
-        mIsLoading.value = false
+
     }
 
-    fun handleChangePage() {
+    fun handleMoveToNextPage() {
         mCurrentPage.value = mCurrentPage.value?.plus(1)
     }
 

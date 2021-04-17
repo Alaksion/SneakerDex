@@ -16,16 +16,16 @@ import kotlinx.coroutines.withContext
 class SneakerDetailViewModel(
     application: Application,
     private val useCase: GetSneakerUseCase
-): AndroidViewModel(application) {
+) : AndroidViewModel(application) {
 
     private val mSneakerInfo = MutableLiveData<Resource<SneakersResponse>>()
-    var sneakerInfo : LiveData<Resource<SneakersResponse>> = mSneakerInfo
+    var sneakerInfo: LiveData<Resource<SneakersResponse>> = mSneakerInfo
 
     private val mIsLoading = MutableLiveData<Boolean>()
-    var isLoading : LiveData<Boolean> = mIsLoading
+    var isLoading: LiveData<Boolean> = mIsLoading
 
     private val mSelectedSize = MutableLiveData<SneakerSizes>()
-    var selectedSize : LiveData<SneakerSizes> = mSelectedSize
+    var selectedSize: LiveData<SneakerSizes> = mSelectedSize
 
 
     fun getSneaker(sneakerId: String) {
@@ -36,12 +36,12 @@ class SneakerDetailViewModel(
 
             withContext(Dispatchers.Main) {
                 mSneakerInfo.value = result
+                mIsLoading.value = false
             }
         }
-        mIsLoading.value = false
     }
 
-    fun selectSneakerSize(sneakerSizes: SneakerSizes){
+    fun selectSneakerSize(sneakerSizes: SneakerSizes) {
         mSelectedSize.value = sneakerSizes
     }
 }

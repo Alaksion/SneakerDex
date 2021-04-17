@@ -9,7 +9,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
-    viewBinding{
+    viewBinding {
         enabled true
     }
 
@@ -36,6 +36,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 
 }
 

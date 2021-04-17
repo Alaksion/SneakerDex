@@ -25,8 +25,8 @@ class SneakerDetailActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivitySneakerDetailBinding
     private lateinit var sneakerId: String
     private val mViewModel by viewModel<SneakerDetailViewModel>()
-    private val adapter =
-        SneakerSizeAdapter()
+
+    private val adapter = SneakerSizeAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

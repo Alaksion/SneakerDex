@@ -15,14 +15,16 @@
         android:theme="@style/Theme.SneakerDex"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".presentation.sneakerdetail.SneakerDetailActivity"/>
+        <activity android:name=".presentation.sneakerdetail.SneakerDetailActivity" />
 
         <activity android:name=".presentation.sneakerlist.SneakerListActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

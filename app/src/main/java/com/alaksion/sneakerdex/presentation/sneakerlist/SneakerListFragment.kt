@@ -22,8 +22,7 @@ class SneakerListFragment : Fragment() {
     private val mViewModel by viewModel<SneakerListViewModel>()
     private lateinit var viewBinding: FragmentSneakerListBinding
 
-    private val sneakerAdapter =
-        SneakerAdapter()
+    private val sneakerAdapter = SneakerAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +54,7 @@ class SneakerListFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    mViewModel.handleChangePage()
+                    mViewModel.handleMoveToNextPage()
                 }
             }
         })
@@ -74,17 +73,12 @@ class SneakerListFragment : Fragment() {
         mViewModel.sneakerList.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> updateSneakerList(response.data)
-                is Resource.Error -> Toast.makeText(context, response.errorMsg, Toast.LENGTH_SHORT)
-                    .show()
+                is Resource.Error -> handleAPiError(response.errorMsg)
             }
         })
 
         mViewModel.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                viewBinding.progressbar.visibility = View.VISIBLE
-            } else {
-                viewBinding.progressbar.visibility = View.GONE
-            }
+            hideLoaderIfPageIsLoaded(it)
         })
 
         mViewModel.currentPage.observe(viewLifecycleOwner, Observer {
@@ -101,9 +95,12 @@ class SneakerListFragment : Fragment() {
             val nameFilter = viewBinding.etSneakerNameFilter.text.toString()
             mViewModel.setNameFilter(nameFilter)
         }
+
+        viewBinding.ecSneakerList.onClick = { mViewModel.getSneakers() }
     }
 
     private fun updateSneakerList(apiResponse: SneakerListResponse?) {
+        viewBinding.ecSneakerList.visibility = View.GONE
         apiResponse.let { response ->
             val list = response?.results
 
@@ -120,6 +117,22 @@ class SneakerListFragment : Fragment() {
             } else {
                 sneakerAdapter.addToList(this)
             }
+        }
+    }
+
+    private fun hideLoaderIfPageIsLoaded(isLoading: Boolean) {
+        if (isLoading) {
+            viewBinding.progressbar.visibility = View.VISIBLE
+        } else {
+            viewBinding.progressbar.visibility = View.GONE
+        }
+    }
+
+    private fun handleAPiError(error: String) {
+        if (sneakerAdapter.itemCount > 0) {
+            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+        } else {
+            viewBinding.ecSneakerList.visibility = View.VISIBLE
         }
     }
 }
