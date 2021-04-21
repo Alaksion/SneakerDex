@@ -13,8 +13,8 @@ import com.alaksion.sneakerdex.databinding.FragmentSneakerListBinding
 import com.alaksion.sneakerdex.domain.model.Sneaker
 import com.alaksion.sneakerdex.domain.model.SneakerListResponse
 import com.alaksion.sneakerdex.presentation.sneakerdetail.SneakerDetailActivity
-import com.alaksion.sneakerdex.shared.extensions.BooleanExtensions.handleOptional
-import com.alaksion.sneakerdex.shared.network.Resource
+import com.alaksion.sneakerdex.core.extensions.BooleanExtensions.handleOptional
+import com.alaksion.sneakerdex.core.network.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SneakerListFragment : Fragment() {

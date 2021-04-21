@@ -4,8 +4,8 @@ import com.alaksion.sneakerdex.data.datasource.SneakerDexRemoteDataSource
 import com.alaksion.sneakerdex.data.model.GetSneakersRequestParamsData
 import com.alaksion.sneakerdex.data.model.SneakerListResponseData
 import com.alaksion.sneakerdex.data.model.SneakerResponseData
-import com.alaksion.sneakerdex.shared.network.NetWorkUtils
-import com.alaksion.sneakerdex.shared.network.Resource
+import com.alaksion.sneakerdex.core.network.NetWorkUtils
+import com.alaksion.sneakerdex.core.network.Resource
 
 class SneakerDexRemoteDataSourceImpl(
     private val netWorkUtils: NetWorkUtils

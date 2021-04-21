@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.alaksion.sneakerdex.domain.model.SneakersResponse
 import com.alaksion.sneakerdex.domain.usecase.GetSneakerUseCase
 import com.alaksion.sneakerdex.presentation.model.SneakerSizes
-import com.alaksion.sneakerdex.shared.network.Resource
+import com.alaksion.sneakerdex.core.network.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

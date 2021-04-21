@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alaksion.sneakerdex.R
+import com.alaksion.sneakerdex.databinding.SneakerListItemBinding
 import com.alaksion.sneakerdex.domain.model.Sneaker
 
 class SneakerAdapter : RecyclerView.Adapter<SneakerViewHolder>() {
@@ -14,13 +15,9 @@ class SneakerAdapter : RecyclerView.Adapter<SneakerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SneakerViewHolder {
         val item =
-            LayoutInflater.from(parent.context).inflate(R.layout.sneaker_list_item, parent, false)
-        return SneakerViewHolder(
-            item,
-            listener
-        )
+            SneakerListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SneakerViewHolder(item, listener)
     }
-
 
     override fun getItemCount(): Int {
         return sneakerList.size
@@ -30,17 +27,17 @@ class SneakerAdapter : RecyclerView.Adapter<SneakerViewHolder>() {
         holder.bindItemData(sneakerList[position])
     }
 
-    fun addToList(list: List<Sneaker>){
+    fun addToList(list: List<Sneaker>) {
         sneakerList.addAll(list)
         notifyDataSetChanged()
     }
 
-    fun replaceList(list: List<Sneaker>){
+    fun replaceList(list: List<Sneaker>) {
         sneakerList = list.toMutableList()
         notifyDataSetChanged()
     }
 
-    fun attachListener(listener: SneakerListClickListener){
+    fun attachListener(listener: SneakerListClickListener) {
         this.listener = listener
     }
 

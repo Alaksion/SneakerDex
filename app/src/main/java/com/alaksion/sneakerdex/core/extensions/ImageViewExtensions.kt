@@ -1,4 +1,4 @@
-package com.alaksion.sneakerdex.shared.extensions
+package com.alaksion.sneakerdex.core.extensions
 
 import android.widget.ImageView
 import com.alaksion.sneakerdex.R

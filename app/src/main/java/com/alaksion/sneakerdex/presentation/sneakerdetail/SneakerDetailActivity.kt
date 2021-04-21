@@ -13,9 +13,9 @@ import com.alaksion.sneakerdex.databinding.ActivitySneakerDetailBinding
 import com.alaksion.sneakerdex.domain.model.SneakersResponse
 import com.alaksion.sneakerdex.presentation.model.Brands
 import com.alaksion.sneakerdex.presentation.model.SneakerSizes
-import com.alaksion.sneakerdex.shared.constants.SneakerDexConstants
-import com.alaksion.sneakerdex.shared.extensions.ImageViewExtensions.setImageFromUrl
-import com.alaksion.sneakerdex.shared.network.Resource
+import com.alaksion.sneakerdex.core.constants.SneakerDexConstants
+import com.alaksion.sneakerdex.core.extensions.ImageViewExtensions.setImageFromUrl
+import com.alaksion.sneakerdex.core.network.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 

@@ -1,36 +1,26 @@
 package com.alaksion.sneakerdex.presentation.sneakerlist
 
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.alaksion.sneakerdex.R
+import com.alaksion.sneakerdex.databinding.SneakerListItemBinding
 import com.alaksion.sneakerdex.domain.model.Sneaker
-import com.alaksion.sneakerdex.shared.extensions.ImageViewExtensions.setImageFromUrl
+import com.alaksion.sneakerdex.core.extensions.ImageViewExtensions.setImageFromUrl
 
+class SneakerViewHolder(
+    private val binding: SneakerListItemBinding,
+    private val clickListener: SneakerListClickListener
+) :
+    RecyclerView.ViewHolder(binding.root) {
 
-class SneakerViewHolder(itemView: View, private val clickListener: SneakerListClickListener) :
-    RecyclerView.ViewHolder(itemView) {
-
-    private val sneakerText: TextView = itemView.findViewById(R.id.tv_sneaker_name)
-    private val sneakerPrice: TextView = itemView.findViewById(R.id.tv_retail_price)
-    private val sneakerImage: ImageView = itemView.findViewById(R.id.iv_sneaker_image)
-    private val sneakerBrand: TextView = itemView.findViewById(R.id.tv_brand_name)
-    private val itemContainer: ConstraintLayout = itemView.findViewById(R.id.cl_item_container)
-
-    fun bindItemData(itemModel: Sneaker) {
+    fun bindItemData(itemModel: Sneaker) = with(binding) {
         val formatSneakerPrice = "$ ${itemModel.retailPrice}"
 
-        sneakerText.text = itemModel.shoe
-        sneakerPrice.text = formatSneakerPrice
-        sneakerImage.setImageFromUrl(itemModel.media.smallImageUrl)
-        sneakerBrand.text = itemModel.brand
+        tvSneakerName.text = itemModel.shoe
+        tvRetailPrice.text = formatSneakerPrice
+        ivSneakerImage.setImageFromUrl(itemModel.media.smallImageUrl)
+        tvBrandName.text = itemModel.brand
 
-
-        itemContainer.setOnClickListener {
+        clItemContainer.setOnClickListener {
             clickListener.onItemClick(itemModel.id)
-
         }
     }
 }

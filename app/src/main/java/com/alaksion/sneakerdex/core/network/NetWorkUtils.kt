@@ -1,4 +1,4 @@
-package com.alaksion.sneakerdex.shared.network
+package com.alaksion.sneakerdex.core.network
 
 import android.content.Context
 import android.net.ConnectivityManager

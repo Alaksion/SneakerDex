@@ -1,9 +1,8 @@
 package com.alaksion.sneakerdex.data.remote
 
-import androidx.lifecycle.LiveData
 import com.alaksion.sneakerdex.data.model.SneakerListResponseData
 import com.alaksion.sneakerdex.data.model.SneakerResponseData
-import com.alaksion.sneakerdex.shared.network.RetrofitClient
+import com.alaksion.sneakerdex.core.network.RetrofitClient
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

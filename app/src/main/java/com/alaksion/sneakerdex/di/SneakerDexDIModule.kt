@@ -6,7 +6,7 @@ import com.alaksion.sneakerdex.domain.usecase.GetSneakerUseCase
 import com.alaksion.sneakerdex.domain.usecase.GetSneakersListUseCase
 import com.alaksion.sneakerdex.presentation.sneakerdetail.SneakerDetailViewModel
 import com.alaksion.sneakerdex.presentation.sneakerlist.SneakerListViewModel
-import com.alaksion.sneakerdex.shared.network.NetWorkUtils
+import com.alaksion.sneakerdex.core.network.NetWorkUtils
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

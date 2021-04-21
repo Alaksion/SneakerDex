@@ -5,7 +5,7 @@ import com.alaksion.sneakerdex.data.model.mapToData
 import com.alaksion.sneakerdex.data.model.mapToDomain
 import com.alaksion.sneakerdex.domain.model.GetSneakersRequestParams
 import com.alaksion.sneakerdex.domain.model.SneakerListResponse
-import com.alaksion.sneakerdex.shared.network.Resource
+import com.alaksion.sneakerdex.core.network.Resource
 
 class GetSneakersListUseCase(
     private val repositoryImpl: SneakerRepositoryImpl

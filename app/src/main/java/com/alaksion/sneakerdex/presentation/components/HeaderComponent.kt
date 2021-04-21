@@ -1,16 +1,14 @@
 package com.alaksion.sneakerdex.presentation.components
 
 import android.content.Context
-import android.media.Image
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.alaksion.sneakerdex.R
-import com.alaksion.sneakerdex.shared.extensions.ViewExtension.handleVisibility
-import com.alaksion.sneakerdex.shared.extensions.BooleanExtensions.handleOptional
+import com.alaksion.sneakerdex.core.extensions.ViewExtension.handleVisibility
+import com.alaksion.sneakerdex.core.extensions.BooleanExtensions.handleOptional
 
 class HeaderComponent @JvmOverloads constructor(
     context: Context,

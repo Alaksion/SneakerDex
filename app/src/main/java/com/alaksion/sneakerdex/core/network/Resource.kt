@@ -1,4 +1,4 @@
-package com.alaksion.sneakerdex.shared.network
+package com.alaksion.sneakerdex.core.network
 
 sealed class Resource<out T>(val data: T? = null) {
 

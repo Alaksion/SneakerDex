@@ -1,4 +1,4 @@
-package com.alaksion.sneakerdex.shared.extensions
+package com.alaksion.sneakerdex.core.extensions
 
 object BooleanExtensions {
 
