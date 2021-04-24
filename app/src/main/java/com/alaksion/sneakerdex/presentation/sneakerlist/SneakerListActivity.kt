@@ -1,16 +1,11 @@
 package com.alaksion.sneakerdex.presentation.sneakerlist
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.alaksion.sneakerdex.databinding.ActivityMainBinding
+import android.view.LayoutInflater
+import com.alaksion.sneakerdex.core.views.BaseViewBindingActivity
+import com.alaksion.sneakerdex.databinding.ActivitySneakerListBinding
 
-class SneakerListActivity : AppCompatActivity() {
+class SneakerListActivity : BaseViewBindingActivity<ActivitySneakerListBinding>() {
 
-    private lateinit var viewBinding: ActivityMainBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
-    }
+    override val bindingInflater: (LayoutInflater) -> ActivitySneakerListBinding =
+        ActivitySneakerListBinding::inflate
 }

@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.alaksion.sneakerdex.R
-import com.alaksion.sneakerdex.core.extensions.ViewExtension.handleVisibility
+import com.alaksion.sneakerdex.core.extensions.ViewExtensions.handleVisibility
 import com.alaksion.sneakerdex.core.extensions.BooleanExtensions.handleOptional
 
 class HeaderComponent @JvmOverloads constructor(

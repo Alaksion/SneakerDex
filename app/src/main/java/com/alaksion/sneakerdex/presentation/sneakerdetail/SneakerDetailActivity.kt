@@ -2,8 +2,8 @@ package com.alaksion.sneakerdex.presentation.sneakerdetail
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
@@ -16,13 +16,15 @@ import com.alaksion.sneakerdex.presentation.model.SneakerSizes
 import com.alaksion.sneakerdex.core.constants.SneakerDexConstants
 import com.alaksion.sneakerdex.core.extensions.ImageViewExtensions.setImageFromUrl
 import com.alaksion.sneakerdex.core.network.Resource
+import com.alaksion.sneakerdex.core.views.BaseViewBindingActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
+class SneakerDetailActivity : BaseViewBindingActivity<ActivitySneakerDetailBinding>() {
 
-class SneakerDetailActivity : AppCompatActivity() {
+    override val bindingInflater: (LayoutInflater) -> ActivitySneakerDetailBinding =
+        ActivitySneakerDetailBinding::inflate
 
-    private lateinit var viewBinding: ActivitySneakerDetailBinding
     private lateinit var sneakerId: String
     private val mViewModel by viewModel<SneakerDetailViewModel>()
 
@@ -30,14 +32,7 @@ class SneakerDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivitySneakerDetailBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
-
         getExtras()
-        setListeners()
-        setObservers()
-        setUpRecycler()
-        setUpAdapterListener()
         mViewModel.getSneaker(sneakerId)
     }
 
@@ -45,41 +40,13 @@ class SneakerDetailActivity : AppCompatActivity() {
         sneakerId = intent.getStringExtra(SneakerDexConstants.SNEAKER_ID_BUNDLE).toString()
     }
 
-    private fun setListeners() {
-        viewBinding.hcDetailActivity.onBackClick = { onBackPressed() }
-
-        viewBinding.ecActDetail.onClick = { mViewModel.getSneaker(sneakerId) }
-    }
-
-    private fun setObservers() {
-        mViewModel.sneakerInfo.observe(this, Observer { response ->
-            when (response) {
-                is Resource.Success -> {
-                    loadSneakerInfoIntoUi(response.data)
-                    showUiBasedOnApiResponse(true)
-                }
-                is Resource.Error -> {
-                    showUiBasedOnApiResponse(false)
-                }
-            }
-        })
-
-        mViewModel.isLoading.observe(this, Observer {
-            viewBinding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
-        })
-
-        mViewModel.selectedSize.observe(this, Observer {
-            adapter.handleItemChange(it)
-        })
-    }
-
     private fun showUiBasedOnApiResponse(isSuccess: Boolean) {
         if (isSuccess) {
-            viewBinding.clContent.visibility = View.VISIBLE
-            viewBinding.ecActDetail.visibility = View.GONE
+            binding.clContent.visibility = View.VISIBLE
+            binding.ecActDetail.visibility = View.GONE
         } else {
-            viewBinding.clContent.visibility = View.GONE
-            viewBinding.ecActDetail.visibility = View.VISIBLE
+            binding.clContent.visibility = View.GONE
+            binding.ecActDetail.visibility = View.VISIBLE
         }
     }
 
@@ -88,18 +55,18 @@ class SneakerDetailActivity : AppCompatActivity() {
 
         val formattedPrice = "$ ${sneaker?.retailPrice}"
 
-        viewBinding.ivSneakerImage.setImageFromUrl(sneaker?.media?.smallImageUrl)
-        viewBinding.tvSneakerName.text = sneaker?.shoe
-        viewBinding.tvRetailPrice.text = formattedPrice
+        binding.ivSneakerImage.setImageFromUrl(sneaker?.media?.smallImageUrl)
+        binding.tvSneakerName.text = sneaker?.shoe
+        binding.tvRetailPrice.text = formattedPrice
 
-        viewBinding.tvColorway.text =
+        binding.tvColorway.text =
             String.format(resources.getString(R.string.colorway_text), sneaker?.colorway)
         setBrandLogo(sneaker?.brand!!)
     }
 
     private fun setBrandLogo(brandName: String) {
         val brandImage = getLogoDrawableId(brandName)
-        viewBinding.ivBrandLogo.setImageDrawable(
+        binding.ivBrandLogo.setImageDrawable(
             ResourcesCompat.getDrawable(
                 resources,
                 brandImage,
@@ -129,8 +96,8 @@ class SneakerDetailActivity : AppCompatActivity() {
 
     private fun setUpRecycler() {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        viewBinding.rvSizes.layoutManager = layoutManager
-        viewBinding.rvSizes.adapter = adapter
+        binding.rvSizes.layoutManager = layoutManager
+        binding.rvSizes.adapter = adapter
     }
 
     private fun setUpAdapterListener() {
@@ -141,6 +108,38 @@ class SneakerDetailActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    override fun setUpListeners() {
+        binding.hcDetailActivity.onBackClick = { onBackPressed() }
+        binding.ecActDetail.onClick = { mViewModel.getSneaker(sneakerId) }
+    }
+
+    override fun setUpObservers() {
+        mViewModel.sneakerInfo.observe(this, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    loadSneakerInfoIntoUi(response.data)
+                    showUiBasedOnApiResponse(true)
+                }
+                is Resource.Error -> {
+                    showUiBasedOnApiResponse(false)
+                }
+            }
+        })
+
+        mViewModel.isLoading.observe(this, Observer {
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
+        mViewModel.selectedSize.observe(this, Observer {
+            adapter.handleItemChange(it)
+        })
+    }
+
+    override fun setUpViews() {
+        setUpRecycler()
+        setUpAdapterListener()
     }
 
     companion object {

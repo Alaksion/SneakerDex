@@ -1,7 +1,5 @@
 package com.alaksion.sneakerdex.presentation.sneakerlist
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,42 +13,26 @@ import com.alaksion.sneakerdex.domain.model.SneakerListResponse
 import com.alaksion.sneakerdex.presentation.sneakerdetail.SneakerDetailActivity
 import com.alaksion.sneakerdex.core.extensions.BooleanExtensions.handleOptional
 import com.alaksion.sneakerdex.core.network.Resource
+import com.alaksion.sneakerdex.core.views.BaseViewBindingFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SneakerListFragment : Fragment() {
+class SneakerListFragment : BaseViewBindingFragment<FragmentSneakerListBinding>() {
 
     private val mViewModel by viewModel<SneakerListViewModel>()
-    private lateinit var viewBinding: FragmentSneakerListBinding
+    override val bindingInflater: (inflater: LayoutInflater, parent: ViewGroup?, attachToRoot: Boolean) -> FragmentSneakerListBinding =
+        FragmentSneakerListBinding::inflate
 
     private val sneakerAdapter = SneakerAdapter()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        viewBinding = FragmentSneakerListBinding.inflate(layoutInflater)
-        return viewBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerAdapter()
-        setUpRecyclerAutoScrollListener()
-        setUpAdapterListener()
-        setUpObservers()
-        setUpListener()
-    }
-
     private fun setupRecyclerAdapter() {
-        val recyclerView = viewBinding.rvSneakers
+        val recyclerView = binding.rvSneakers
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = sneakerAdapter
     }
 
     private fun setUpRecyclerAutoScrollListener() {
 
-        viewBinding.rvSneakers.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rvSneakers.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
@@ -69,38 +51,8 @@ class SneakerListFragment : Fragment() {
         })
     }
 
-    private fun setUpObservers() {
-        mViewModel.sneakerList.observe(viewLifecycleOwner, Observer { response ->
-            when (response) {
-                is Resource.Success -> updateSneakerList(response.data)
-                is Resource.Error -> handleAPiError(response.errorMsg)
-            }
-        })
-
-        mViewModel.isLoading.observe(viewLifecycleOwner, Observer {
-            hideLoaderIfPageIsLoaded(it)
-        })
-
-        mViewModel.currentPage.observe(viewLifecycleOwner, Observer {
-            mViewModel.getSneakers()
-        })
-
-        mViewModel.nameFilter.observe(viewLifecycleOwner, Observer {
-            mViewModel.resetPagination()
-        })
-    }
-
-    private fun setUpListener() {
-        viewBinding.ivSearchButton.setOnClickListener {
-            val nameFilter = viewBinding.etSneakerNameFilter.text.toString()
-            mViewModel.setNameFilter(nameFilter)
-        }
-
-        viewBinding.ecSneakerList.onClick = { mViewModel.getSneakers() }
-    }
-
     private fun updateSneakerList(apiResponse: SneakerListResponse?) {
-        viewBinding.ecSneakerList.visibility = View.GONE
+        binding.ecSneakerList.visibility = View.GONE
         apiResponse.let { response ->
             val list = response?.results
 
@@ -122,9 +74,9 @@ class SneakerListFragment : Fragment() {
 
     private fun hideLoaderIfPageIsLoaded(isLoading: Boolean) {
         if (isLoading) {
-            viewBinding.progressbar.visibility = View.VISIBLE
+            binding.progressbar.visibility = View.VISIBLE
         } else {
-            viewBinding.progressbar.visibility = View.GONE
+            binding.progressbar.visibility = View.GONE
         }
     }
 
@@ -132,8 +84,44 @@ class SneakerListFragment : Fragment() {
         if (sneakerAdapter.itemCount > 0) {
             Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
         } else {
-            viewBinding.ecSneakerList.visibility = View.VISIBLE
+            binding.ecSneakerList.visibility = View.VISIBLE
         }
+    }
+
+    override fun setUpObservers() {
+        mViewModel.sneakerList.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> updateSneakerList(response.data)
+                is Resource.Error -> handleAPiError(response.errorMsg)
+            }
+        })
+
+        mViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            hideLoaderIfPageIsLoaded(it)
+        })
+
+        mViewModel.currentPage.observe(viewLifecycleOwner, Observer {
+            mViewModel.getSneakers()
+        })
+
+        mViewModel.nameFilter.observe(viewLifecycleOwner, Observer {
+            mViewModel.resetPagination()
+        })
+    }
+
+    override fun setUpListener() {
+        binding.ivSearchButton.setOnClickListener {
+            val nameFilter = binding.etSneakerNameFilter.text.toString()
+            mViewModel.setNameFilter(nameFilter)
+        }
+
+        binding.ecSneakerList.onClick = { mViewModel.getSneakers() }
+    }
+
+    override fun setUpViews() {
+        setupRecyclerAdapter()
+        setUpRecyclerAutoScrollListener()
+        setUpAdapterListener()
     }
 }
 
